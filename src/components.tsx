@@ -89,9 +89,8 @@ export function Shots({ gallery }: { gallery: Gallery }) {
 
 export function ProjectCard({ project, big = false }: { project: Project; big?: boolean }) {
   return (
-    <Link
-      href={`/projects/${project.slug}`}
-      className={`reveal group grid gap-5 rounded-xl border bg-raised p-5 transition hover:-translate-y-0.5 hover:border-accent/60 ${
+    <article
+      className={`reveal group relative grid gap-5 rounded-xl border bg-raised p-5 transition hover:-translate-y-0.5 hover:border-accent/60 ${
         big ? "border-line-strong md:grid-cols-[1.2fr_1fr]" : "border-line"
       }`}
     >
@@ -105,7 +104,12 @@ export function ProjectCard({ project, big = false }: { project: Project; big?: 
         {project.stat && <p className="mb-4 font-mono text-sm text-accent">{project.stat}</p>}
         <div className="mt-auto">
           <Tags items={project.stack.slice(0, 3)} />
-          <p className="mt-3 text-sm text-accent">read case study →</p>
+          <div className="mt-3 flex flex-wrap gap-x-4 gap-y-2 text-sm text-accent">
+            <Link href={`/projects/${project.slug}`} aria-label={`Read ${project.title} case study`} className="after:absolute after:inset-0 after:rounded-xl hover:underline">read case study →</Link>
+            {project.slug === "go-bus" && (
+              <Link href="/projects/go-bus#seat-demo" className="relative z-10 underline underline-offset-4">Try the seat demo</Link>
+            )}
+          </div>
         </div>
       </div>
       {big && (
@@ -137,6 +141,6 @@ export function ProjectCard({ project, big = false }: { project: Project; big?: 
           )}
         </div>
       )}
-    </Link>
+    </article>
   );
 }

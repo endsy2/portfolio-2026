@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import SeatDemo from "@/SeatDemo";
 import { projects } from "@/content";
 import { Label, Layers, Shots, Steps, Tags } from "@/components";
 
@@ -58,6 +59,7 @@ export default async function ProjectPage({ params }: Props) {
         <div>
           <Label>the problem</Label>
           <p className="text-sm leading-relaxed text-soft">{p.problem}</p>
+          {p.slug === "go-bus" && <SeatDemo />}
           {p.problemGallery && <div className="mt-5"><Shots gallery={p.problemGallery} /></div>}
           {p.bookingDecision && (
             <div className="mt-6">

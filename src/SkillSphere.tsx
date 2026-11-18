@@ -49,18 +49,7 @@ export default function SkillSphere({ logos }: { logos: Logo[] }) {
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     let ax = -0.35, ay = 0, vx = 0, vy = 0.004, drag = false, lx = 0, ly = 0, raf = 0, size = 0;
 
-    const resize = () => {
-      size = wrap.current!.clientWidth;
-      const dpr = window.devicePixelRatio || 1;
-      cv.width = cv.height = size * dpr;
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    };
-    const ro = new ResizeObserver(resize);
-    ro.observe(wrap.current!);
-    resize();
-
-    const frame = () => {
-      if (!drag) { ax += vx; ay += vy; vx *= 0.95; vy += (0.004 - vy) * 0.02; }
+    const draw = () => {
       const R = size * 0.44, c = size / 2;
       const [cx, sx, cy, sy] = [Math.cos(ax), Math.sin(ax), Math.cos(ay), Math.sin(ay)];
       const rot = ([x, y, z]: V): V => {
@@ -96,6 +85,22 @@ export default function SkillSphere({ logos }: { logos: Logo[] }) {
         st.filter = `brightness(${0.45 + 0.55 * d})`;
         st.zIndex = String(Math.round(d * 100));
       });
+    };
+
+    const resize = () => {
+      size = wrap.current!.clientWidth;
+      const dpr = window.devicePixelRatio || 1;
+      cv.width = cv.height = size * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      draw();
+    };
+    const ro = new ResizeObserver(resize);
+    ro.observe(wrap.current!);
+    resize();
+
+    const frame = () => {
+      if (!drag) { ax += vx; ay += vy; vx *= 0.95; vy += (0.004 - vy) * 0.02; }
+      draw();
       if (!reduce || drag) raf = requestAnimationFrame(frame);
     };
 
@@ -113,7 +118,7 @@ export default function SkillSphere({ logos }: { logos: Logo[] }) {
     el.addEventListener("pointermove", move);
     el.addEventListener("pointerup", up);
     el.addEventListener("pointercancel", up);
-    frame();
+    if (!reduce) frame();
     return () => {
       cancelAnimationFrame(raf); ro.disconnect();
       el.removeEventListener("pointerdown", down); el.removeEventListener("pointermove", move);
