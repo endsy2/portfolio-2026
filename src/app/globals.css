@@ -1,0 +1,56 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-bg: #0b1020;
+  --color-card: #111833;
+  --color-raised: #0e1530;
+  --color-line: #233056;
+  --color-line-strong: #2a3a6e;
+  --color-fg: #e8ecf5;
+  --color-soft: #c9d3ea;
+  --color-muted: #8a94ad;
+  --color-accent: #5b8cff;
+  --color-ok: #3ddc97;
+  --font-sans: var(--font-inter);
+  --font-mono: var(--font-jetbrains);
+}
+
+html {
+  color-scheme: dark;
+  scroll-behavior: smooth;
+  scroll-padding-top: 5rem; /* keep anchored headings clear of the sticky nav */
+}
+
+body {
+  background:
+    radial-gradient(40rem 30rem at 0% 0%, #1fb6a61a, transparent 70%),
+    radial-gradient(45rem 35rem at 100% 40%, #7b5bff1f, transparent 70%),
+    var(--color-bg);
+  background-attachment: fixed;
+  color: var(--color-fg);
+}
+
+.gradient-text {
+  background: linear-gradient(90deg, #5b8cff, #9b7bff 60%, #2fd3c0);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Fade sections in as they scroll into view (pure CSS; no-op where unsupported). */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .reveal {
+      animation: reveal linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 35%;
+    }
+  }
+}
+@keyframes reveal {
+  from { opacity: 0; transform: translateY(24px); }
+}
+
+::selection {
+  background: #5b8cff55;
+}
