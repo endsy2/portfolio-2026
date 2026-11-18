@@ -28,7 +28,7 @@ export function Layers({ layers }: { layers: Layer[] }) {
           {i > 0 && <p className="py-1 text-center font-mono text-xs text-muted" aria-hidden>↓</p>}
           <div className="grid gap-2" style={{ gridTemplateColumns: `repeat(${row.length}, minmax(0, 1fr))` }}>
             {row.map((box) => (
-              <div key={box} className="rounded-lg border border-line-strong bg-raised px-3 py-2.5 text-center text-xs text-soft sm:text-sm">
+              <div key={box} className="rounded-lg border border-line-strong bg-raised px-1.5 py-2.5 text-center text-xs wrap-anywhere text-soft sm:px-3 sm:text-sm">
                 {box}
               </div>
             ))}
@@ -66,7 +66,7 @@ export function Shots({ gallery }: { gallery: Gallery }) {
             <a href={s.src} target="_blank" rel="noreferrer" className="block transition hover:-translate-y-0.5">
               {phone ? (
                 <div className="overflow-hidden rounded-[1.4rem] border-4 border-line-strong bg-black">
-                  <img src={s.src} alt={s.caption} loading="lazy" className="w-full" />
+                  <img src={s.src} alt={s.caption} loading="lazy" className="aspect-[9/20] w-full object-contain" />
                 </div>
               ) : (
                 <div className="overflow-hidden rounded-lg border border-line-strong bg-card">
@@ -79,7 +79,7 @@ export function Shots({ gallery }: { gallery: Gallery }) {
                 </div>
               )}
             </a>
-            <figcaption className="mt-2 text-xs text-muted">{s.caption}</figcaption>
+            <figcaption className="mt-2 text-sm leading-snug text-soft">{s.caption}</figcaption>
           </figure>
         ))}
       </div>
@@ -91,7 +91,7 @@ export function ProjectCard({ project, big = false }: { project: Project; big?: 
   return (
     <Link
       href={`/projects/${project.slug}`}
-      className={`group grid gap-5 rounded-xl border bg-raised p-5 transition hover:-translate-y-0.5 hover:border-accent/60 ${
+      className={`reveal group grid gap-5 rounded-xl border bg-raised p-5 transition hover:-translate-y-0.5 hover:border-accent/60 ${
         big ? "border-line-strong md:grid-cols-[1.2fr_1fr]" : "border-line"
       }`}
     >
@@ -103,37 +103,38 @@ export function ProjectCard({ project, big = false }: { project: Project; big?: 
         <h3 className="mb-2 text-lg font-medium">{project.title}</h3>
         <p className="mb-4 text-sm leading-relaxed text-muted">{project.summary}</p>
         {project.stat && <p className="mb-4 font-mono text-sm text-accent">{project.stat}</p>}
-        {big && (
-          <ul className="mb-4 space-y-1.5 text-sm leading-relaxed text-soft">
-            {project.built.slice(0, 3).map((b) => (
-              <li key={b} className="flex gap-2">
-                <span className="text-accent" aria-hidden>›</span>
-                {b}
-              </li>
-            ))}
-          </ul>
-        )}
-        {big && project.role && <p className="mb-4 rounded-md border border-line px-3 py-2 text-xs text-muted">{project.role}</p>}
         <div className="mt-auto">
-          <Tags items={project.stack.slice(0, 6)} />
+          <Tags items={project.stack.slice(0, 3)} />
           <p className="mt-3 text-sm text-accent">read case study →</p>
         </div>
       </div>
-      {big && project.slug === "go-bus" && (
-        <div className="flex items-center justify-center gap-3 rounded-lg bg-card p-4">
-          {["m-seat-user1", "m-seat-user2"].map((f, i) => (
-            <div key={f} className="text-center">
-              <div className="w-28 overflow-hidden rounded-2xl border-4 border-line-strong sm:w-32">
-                <img src={`/projects/gobus/${f}.jpg`} alt={`User ${i + 1} seat view`} className="w-full" />
-              </div>
-              <p className="mt-2 font-mono text-xs text-muted">user {i + 1}</p>
+      {big && (
+        <div className="grid content-center rounded-lg bg-card p-4">
+          {project.problemGallery ? (
+            <div className="grid grid-cols-2 items-start justify-items-center gap-3">
+              {project.problemGallery.shots.map((shot, i) => (
+                <figure key={shot.src} className="w-full max-w-32">
+                  <img src={shot.src} alt={shot.caption} loading="lazy" className="aspect-[9/20] w-full rounded-2xl border-4 border-line-strong bg-black object-contain" />
+                  <figcaption className="mt-2 text-sm text-soft">
+                    {i === 0 ? "Passenger A selects A1" : "Passenger B sees A1 on hold"}
+                  </figcaption>
+                </figure>
+              ))}
             </div>
-          ))}
-        </div>
-      )}
-      {big && project.architecture && project.slug !== "go-bus" && (
-        <div className="rounded-lg bg-card p-4">
-          <Layers layers={project.architecture.layers.slice(0, 3)} />
+          ) : project.slug === "vtech-management-system" && project.flow ? (
+            <figure>
+              <figcaption className="mb-3 text-sm font-medium">{project.flow.title}</figcaption>
+              <ol className="grid gap-2 border-l border-line-strong pl-4">
+                {project.flow.steps.map((step, i) => (
+                  <li key={step} className="flex items-baseline gap-3 text-sm text-soft">
+                    <span aria-hidden className="font-mono text-xs text-accent">{i + 1}</span>{step}
+                  </li>
+                ))}
+              </ol>
+            </figure>
+          ) : (
+            <Layers layers={project.architecture.layers.slice(0, 3)} />
+          )}
         </div>
       )}
     </Link>

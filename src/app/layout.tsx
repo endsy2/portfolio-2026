@@ -22,11 +22,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               {profile.name}
             </Link>
             <div className="flex items-center gap-4 sm:gap-6">
-              <Link href="/#about" className="hidden hover:text-fg md:inline">About</Link>
               <Link href="/#work" className="hidden hover:text-fg sm:inline">Work</Link>
               <Link href="/#projects" className="hidden hover:text-fg sm:inline">Projects</Link>
-              <Link href="/#skills" className="hidden hover:text-fg md:inline">Skills</Link>
               <Link href="/#experience" className="hidden hover:text-fg md:inline">Experience</Link>
+              <Link href="/#skills" className="hidden hover:text-fg md:inline">Skills</Link>
               <Link href="/#contact" className="rounded-md border border-line-strong px-3 py-1.5 text-soft hover:bg-card hover:text-fg">Contact</Link>
             </div>
           </nav>

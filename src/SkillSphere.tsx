@@ -124,7 +124,7 @@ export default function SkillSphere({ logos }: { logos: Logo[] }) {
   return (
     <div ref={wrap} className="relative mx-auto aspect-square w-full max-w-lg">
       <canvas ref={canvas} className="absolute inset-0 size-full" aria-hidden />
-      <div ref={box} className="absolute inset-0 cursor-grab touch-none select-none active:cursor-grabbing" aria-label={`Skills: ${logos.map((l) => l.title).join(", ")}`} role="img">
+      <div ref={box} className="absolute inset-0 cursor-grab touch-pan-y select-none active:cursor-grabbing" aria-label={`Skills: ${logos.map((l) => l.title).join(", ")}`} role="img">
         {logos.map((l) => (
           <svg key={l.title} viewBox="0 0 24 24" className="absolute left-1/2 top-1/2 size-9" fill={tint(l.hex)}>
             <title>{l.title}</title>

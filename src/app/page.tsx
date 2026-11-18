@@ -1,6 +1,7 @@
 /* eslint-disable @next/next/no-img-element -- static export */
 import { education, experience, profile, projects, skills } from "@/content";
 import { Label, ProjectCard } from "@/components";
+import ScrollReveals from "@/ScrollReveals";
 import SkillSphere from "@/SkillSphere";
 import * as si from "simple-icons";
 
@@ -19,21 +20,11 @@ export default function Home() {
 
   return (
     <main>
-      {/* Hero */}
-      <section className="grid items-center gap-10 py-14 md:grid-cols-[1.25fr_1fr] md:py-20">
+      <ScrollReveals />
+      <section className="profile-hero grid items-center gap-5 py-10 sm:grid-cols-[1fr_auto] sm:gap-10 sm:py-16">
         <div>
-          <p className="mb-5 inline-flex items-center gap-2 rounded-full border border-line-strong bg-card px-3 py-1 font-mono text-xs text-soft">
-            <span className="size-1.5 rounded-full bg-ok" /> open to full stack and backend roles
-          </p>
-          <h1 className="mb-5 text-4xl font-semibold leading-tight sm:text-5xl">
-            Hi, I&apos;m
-            <br />
-            <span className="gradient-text">{profile.name}</span>
-          </h1>
-          <p className="mb-2 text-lg text-soft">I build banking and business systems end to end.</p>
-          <p className="mb-7 text-sm text-muted">
-            Full stack developer in {profile.location.split(",")[0]}. I work in {profile.stack.replaceAll(" ·", ",")}.
-          </p>
+          <h1 className="gradient-text mb-4 text-4xl font-semibold leading-tight sm:text-5xl">{profile.name}</h1>
+          <p className="mb-6 max-w-xl text-lg leading-relaxed text-soft">{profile.intro}</p>
           <div className="flex flex-wrap gap-3">
             <a href="#work" className="rounded-md bg-gradient-to-r from-accent to-[#9b7bff] px-4 py-2 text-sm font-medium text-white hover:opacity-90">
               See my work
@@ -44,60 +35,12 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="flex flex-col items-center gap-5 md:items-end">
-          <div className="rounded-2xl bg-gradient-to-br from-accent via-[#9b7bff] to-[#2fd3c0] p-[2px]">
-            <img src="/me.jpg" alt={profile.name} className="size-44 rounded-[14px] object-cover sm:size-52" />
-          </div>
-          <pre className="w-full overflow-x-auto rounded-xl border border-line bg-card/90 p-5 font-mono text-[13px] leading-7" aria-label="Profile summary as code">
-            <span className="mb-3 flex items-center justify-between" aria-hidden>
-              <span className="flex gap-1.5">
-                <span className="size-2.5 rounded-full bg-[#e24b4a]" />
-                <span className="size-2.5 rounded-full bg-[#ef9f27]" />
-                <span className="size-2.5 rounded-full bg-ok" />
-              </span>
-              <span className="text-xs text-muted">me.ts</span>
-            </span>
-            <span className="text-accent">const</span> me = {"{"}
-            {"\n"}  name: <span className="text-[#f0b66b]">&quot;{profile.name}&quot;</span>,
-            {"\n"}  role: <span className="text-[#f0b66b]">&quot;{profile.role}&quot;</span>,
-            {"\n"}  langs: [{profile.langs.map((l, i) => (
-              <span key={l}>
-                <span className="text-[#f0b66b]">&quot;{l}&quot;</span>
-                {i < profile.langs.length - 1 && ", "}
-              </span>
-            ))}],
-            {"\n"}  current: <span className="text-[#f0b66b]">&quot;VTECH&quot;</span>,
-            {"\n"}{"}"}
-          </pre>
-        </div>
-      </section>
-
-      {/* About me */}
-      <section className="reveal mb-24 grid gap-8 md:grid-cols-[1.4fr_1fr]">
-        <div>
-          <Label id="about">about</Label>
-          <h2 className="mb-5 text-3xl font-semibold">About me</h2>
-          <div className="space-y-4 text-sm leading-relaxed text-soft">
-            {profile.about.map((para) => (
-              <p key={para}>{para}</p>
-            ))}
-          </div>
-        </div>
-        <dl className="h-fit space-y-3 rounded-xl border border-line bg-card p-5 font-mono text-xs">
-          {profile.facts.map((f) => (
-            <div key={f.k} className="grid grid-cols-[5.5rem_1fr] gap-3">
-              <dt className="text-muted">{f.k}</dt>
-              <dd className="text-soft">{f.v}</dd>
-            </div>
-          ))}
-        </dl>
+        <img src="/me.jpg" alt={profile.name} className="row-start-1 size-20 rounded-2xl object-cover sm:col-start-2 sm:size-40" />
       </section>
 
       {/* Work */}
-      <section className="reveal mb-24">
-        <Label id="work">professional work</Label>
-        <h2 className="mb-2 text-3xl font-semibold">Systems people use every day</h2>
-        <p className="mb-8 text-sm text-muted">Internal platforms I&apos;ve built for a bank and a growing company.</p>
+      <section className="mb-24">
+        <h2 id="work" className="reveal mb-6 text-3xl font-semibold">Professional work</h2>
         <div className="grid gap-4">
           {work.map((p) => (
             <ProjectCard key={p.slug} project={p} big />
@@ -106,10 +49,8 @@ export default function Home() {
       </section>
 
       {/* Featured + personal projects */}
-      <section className="reveal mb-24">
-        <Label id="projects">featured project</Label>
-        <h2 className="mb-2 text-3xl font-semibold">Two people, one seat, no double booking.</h2>
-        <p className="mb-8 text-sm text-muted">My final-year thesis: the backend behind a real-time bus booking app.</p>
+      <section className="mb-24">
+        <h2 id="projects" className="reveal mb-6 text-3xl font-semibold">Personal projects</h2>
         <div className="grid gap-4">
           <ProjectCard project={featured} big />
           <div className="grid gap-4 md:grid-cols-2">
@@ -120,36 +61,14 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Skills */}
-      <section className="reveal mb-24">
-        <Label id="skills">tech stack</Label>
-        <h2 className="mb-2 text-3xl font-semibold">
-          My <span className="gradient-text">skills</span>
-        </h2>
-        <p className="mb-8 text-sm text-muted">The tools I use to build, ship and run systems. Drag the sphere to spin it.</p>
-        <SkillSphere logos={logos} />
-        <dl className="mx-auto mt-10 max-w-3xl border-t border-line">
-          {skills.map((s) => (
-            <div key={s.group} className="grid gap-2 border-b border-line py-3.5 sm:grid-cols-[9rem_1fr] sm:items-center sm:gap-4">
-              <dt className="font-mono text-xs uppercase tracking-wider text-[#2fd3c0]">{s.group}</dt>
-              <dd className="flex flex-wrap gap-1.5">
-                {s.items.map((i) => (
-                  <span key={i} className="rounded-md border border-line-strong bg-card px-2.5 py-1 text-xs text-soft">{i}</span>
-                ))}
-              </dd>
-            </div>
-          ))}
-        </dl>
-      </section>
-
       {/* Experience */}
-      <section className="reveal mb-24">
+      <section className="mb-24">
         <Label id="experience">career</Label>
-        <h2 className="mb-2 text-3xl font-semibold">Experience</h2>
-        <p className="mb-8 text-sm text-muted">From internship to banking and enterprise systems.</p>
+        <h2 className="reveal mb-2 text-3xl font-semibold">Experience</h2>
+        <p id="about" className="mb-8 max-w-2xl text-sm leading-relaxed text-soft">{profile.about}</p>
         <ol className="border-l border-line-strong">
           {experience.map((e) => (
-            <li key={e.role + e.org} className="relative mb-10 pl-6 last:mb-0">
+            <li key={e.role + e.org} className="reveal relative mb-10 pl-6 last:mb-0">
               <span className="absolute -left-[5px] top-1.5 size-2.5 rounded-full bg-accent" aria-hidden />
               <p className="mb-1 font-mono text-xs text-accent">{e.period}</p>
               <p className="mb-2 font-medium">
@@ -167,10 +86,35 @@ export default function Home() {
           ))}
         </ol>
 
-        <h3 className="mb-4 mt-14 text-xl font-semibold">Education</h3>
+      </section>
+
+      {/* Skills */}
+      <section className="mb-24">
+        <Label id="skills">tech stack</Label>
+        <h2 className="reveal mb-2 text-3xl font-semibold">
+          My <span className="gradient-text">skills</span>
+        </h2>
+        <p className="mb-8 text-sm text-muted">The tools I use to build, ship and run systems. Drag the sphere to spin it.</p>
+        <SkillSphere logos={logos} />
+        <dl className="mx-auto mt-10 max-w-3xl border-t border-line">
+          {skills.map((s) => (
+            <div key={s.group} className="reveal grid gap-2 border-b border-line py-3.5 sm:grid-cols-[9rem_1fr] sm:items-center sm:gap-4">
+              <dt className="font-mono text-xs uppercase tracking-wider text-[#2fd3c0]">{s.group}</dt>
+              <dd className="flex flex-wrap gap-1.5">
+                {s.items.map((i) => (
+                  <span key={i} className="rounded-md border border-line-strong bg-card px-2.5 py-1 text-xs text-soft">{i}</span>
+                ))}
+              </dd>
+            </div>
+          ))}
+        </dl>
+      </section>
+
+      <section className="mb-24">
+        <h2 className="reveal mb-6 text-3xl font-semibold">Education</h2>
         <div className="grid gap-4 sm:grid-cols-2">
           {education.map((e) => (
-            <div key={e.name} className="flex gap-4 rounded-xl border border-line bg-raised p-5">
+            <div key={e.name} className="reveal flex gap-4 rounded-xl border border-line bg-raised p-5">
               <span className="text-2xl" aria-hidden>{e.icon}</span>
               <div>
                 <p className="font-medium">{e.name}</p>

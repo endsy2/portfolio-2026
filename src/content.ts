@@ -9,20 +9,8 @@ export const profile = {
   email: "kongming434@gmail.com",
   github: "https://github.com/endsy2",
   linkedin: "", // TODO: add LinkedIn URL
-  langs: ["km", "en", "中文"],
-  intro: "I’m a full-stack developer with commercial experience since 2025.",
-  about: [
-    "I'm Kong Ming, a full stack developer from Phnom Penh. I like building the systems a business runs on every day: approval flows, permissions, payroll and reports that have to be right every time.",
-    "Since 2025 I've worked across the whole stack. At Asia-Pacific Development Bank I built Spring Boot APIs for a task tracking system and wrote Oracle SQL and PL/SQL for regulatory reports. At VTECH I build the internal platform the company uses for HR, payroll, finance and assets, in Next.js and PostgreSQL.",
-    "I speak Khmer, English and Chinese. I taught Chinese for three years, and today I use it to work directly with a Chinese CTO and a core banking vendor. Outside work I'm learning machine learning, starting with image search.",
-  ],
-  facts: [
-    { k: "based in", v: "Phnom Penh, Cambodia" },
-    { k: "languages", v: "Khmer · English · 中文" },
-    { k: "focus", v: "Banking and enterprise systems" },
-    { k: "learning", v: "Machine learning, image search" },
-    { k: "open to", v: "Full stack and backend roles" },
-  ],
+  intro: "I’m a full-stack developer in Phnom Penh. I build approval workflows, payroll tools, and reporting systems for businesses and banks.",
+  about: "I speak Khmer, English, and Chinese. I taught Chinese for three years and now use it to work directly with our CTO and a core banking vendor.",
 };
 
 export const skills: { group: string; items: string[] }[] = [
@@ -90,8 +78,9 @@ export type Project = {
   problem: string;
   built: string[];
   architecture: { title: string; layers: Layer[]; note?: string };
-  flow?: { title: string; steps: string[]; note?: string };
+  flow?: { title: string; steps: string[]; example?: string; note?: string };
   problemGallery?: Gallery;
+  bookingDecision?: string;
   galleries?: Gallery[];
   confidential?: boolean;
 };
@@ -110,15 +99,13 @@ export const projects: Project[] = [
       "One platform for HR, attendance, leave, payroll, finance, procurement and IT assets.",
     stat: "~70 staff on the system",
     stack: ["Next.js", "TypeScript", "PostgreSQL", "Drizzle ORM", "Tailwind CSS", "Telegram Bot"],
+    role: "I worked with VTECH’s CTO in Chinese to turn HR and finance requirements into employee screens, approval rules, and PostgreSQL records.",
     problem:
-      "HR, payroll, finance and asset records lived in separate spreadsheets and chats. Approvals were informal, and sensitive salary data had no access control or audit trail.",
+      "HR and finance kept records in spreadsheets and approved requests in chat. It was hard to trace who had approved a request or control who could see salary details.",
     built: [
-      "Built features end to end, from the Next.js interface to backend logic and PostgreSQL with Drizzle ORM.",
-      "Role-based permissions and approval workflows with separation of duties: nobody can approve their own request.",
-      "Audit logs and access controls for sensitive employee and financial data.",
-      "Automated payroll calculations, expense and funding records, asset tracking, and onboarding and offboarding workflows.",
-      "Employee portal in Khmer, English and Chinese, with Telegram notifications.",
-      "Clarified requirements and technical details directly with the company's Chinese CTO, in Chinese.",
+      "I built the employee portal in Khmer, English, and Chinese, with Telegram notifications for staff.",
+      "I implemented server-side permission checks and an audit trail for approvals and sensitive payroll and finance records.",
+      "I automated payroll calculations and built tools to track expenses, funding, and IT assets through onboarding and offboarding.",
     ],
     architecture: {
       title: "System overview",
@@ -131,7 +118,8 @@ export const projects: Project[] = [
     flow: {
       title: "Approval workflow",
       steps: ["Employee submits request", "Manager approves", "Finance / HR verifies", "Recorded and notified"],
-      note: "Separation of duties: the requester can never approve their own request. Every step is written to the audit log.",
+      example: "Take an expense request. An employee submits it through the portal. Their manager reviews and approves it, then finance verifies it. The system records the outcome and sends a notification. HR handles verification for HR requests.",
+      note: "The server checks both the user’s role and who filed the request. Even a manager with approval permission cannot approve their own submission. Each step leaves an audit record.",
     },
     confidential: true,
   },
@@ -176,23 +164,22 @@ export const projects: Project[] = [
     kind: "personal",
     title: "GoBus Express",
     org: "Final-year thesis · team project",
-    role: "My part: backend microservices, payments and the React admin. The Flutter app was built by a teammate on top of my APIs.",
+    role: "I built the backend services, Bakong payment integration, and React admin dashboard. My teammate built the Flutter passenger app using those APIs.",
     summary:
-      "Bus booking for Cambodia: real-time seat locking so two people can never book the same seat, and payment with Bakong KHQR.",
+      "Passengers in Cambodia can choose a seat, see live availability, and pay with Bakong KHQR.",
     stack: ["Spring Boot", "Spring Cloud Gateway", "React", "PostgreSQL", "Redis", "RabbitMQ", "MinIO", "WebSocket", "Docker", "Kubernetes"],
     stat: "5 microservices",
     repo: "https://github.com/endsy2/GO-BUS",
     cover: { src: g("m-seat-user1"), caption: "Seat selection" },
     problem:
-      "Many people book the same popular routes at the same moment. Without locking, two customers can pay for one seat. Payments also need to work with Cambodia's national KHQR standard.",
+      "Two passengers can open the same departure while seat A1 is still available. One selects it. The other needs to see the hold, even if their seat map was already open.",
     built: [
       "Five Spring Boot services (registry, gateway, user, bus, booking), each owning its own PostgreSQL schema.",
       "An API gateway that validates RS256 JWTs, rate-limits requests and trips circuit breakers. Clients never call a service directly.",
-      "Real-time seat booking with pessimistic locks and a seat state machine, broadcast to every open app over STOMP WebSockets.",
+      "Live seat maps use STOMP over WebSocket to show selections and releases to passengers viewing the same departure.",
       "Bakong KHQR payments with a dedicated circuit breaker and a 5-minute payment poll, plus an in-app wallet with a PIN.",
       "RabbitMQ notifications, Redis caching and token blacklisting, and MinIO image storage.",
       "React admin dashboard with RBAC, and Docker / Kubernetes deployment.",
-      "The Flutter customer app was built by a teammate on top of these APIs.",
     ],
     architecture: {
       title: "Architecture",
@@ -207,14 +194,15 @@ export const projects: Project[] = [
     flow: {
       title: "Seat state machine",
       steps: ["AVAILABLE", "PENDING · 5 min hold", "BOOKED"],
-      note: "A pessimistic lock guards the AVAILABLE → PENDING step. An unpaid PENDING seat expires back to AVAILABLE, and every change is pushed to all clients over WebSocket.",
+      note: "If a passenger leaves without booking, a cleanup job checks every minute for holds older than five minutes. It releases the seats and broadcasts their availability.",
     },
+    bookingDecision: "A seat map can go stale between a tap and checkout. The booking service asks the database to mark a seat booked only if it is still available or held by that passenger. If two booking requests reach the same seat, the later update cannot overwrite a completed booking. The service checks how many seats changed and rejects the request if it could not book them all.",
     problemGallery: {
-      title: "Two users, same route, same moment",
+      title: "One departure, two seat maps",
       device: "phone",
       shots: [
-        { src: g("m-seat-user1"), caption: "User 1 selects A1, B1, C1 (yellow)" },
-        { src: g("m-seat-user2"), caption: "User 2 sees them as pending (pink)" },
+        { src: g("m-seat-user1"), caption: "Passenger A has selected A1 and B1. Both seats appear pink on this phone." },
+        { src: g("m-seat-user2"), caption: "On passenger B’s phone, A1 and B1 appear orange. Another passenger is holding them." },
       ],
     },
     galleries: [

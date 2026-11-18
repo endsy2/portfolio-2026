@@ -20,10 +20,21 @@ export default async function ProjectPage({ params }: Props) {
   const p = projects.find((x) => x.slug === slug);
   if (!p) notFound();
 
+  const workflow = p.flow && (
+    <section className="mb-14">
+      <h2 className="mb-4 text-lg font-medium">{p.flow.title}</h2>
+      <div className="rounded-xl border border-line bg-card p-4 sm:p-5">
+        {p.flow.example && <p className="mb-5 max-w-2xl text-sm leading-relaxed text-soft">{p.flow.example}</p>}
+        <Steps steps={p.flow.steps} />
+        {p.flow.note && !p.bookingDecision && <p className="mt-4 max-w-2xl text-sm leading-relaxed text-soft">{p.flow.note}</p>}
+      </div>
+    </section>
+  );
+
   return (
     <main className="py-10">
       <Link href={p.kind === "work" ? "/#work" : "/#projects"} className="font-mono text-sm text-muted hover:text-fg">
-        ← cd ..
+        ← Back to {p.kind === "work" ? "professional work" : "personal projects"}
       </Link>
 
       <header className="mb-14 mt-8 max-w-3xl">
@@ -33,8 +44,8 @@ export default async function ProjectPage({ params }: Props) {
         </p>
         <h1 className="mb-4 text-3xl font-medium sm:text-4xl">{p.title}</h1>
         <p className="mb-5 leading-relaxed text-soft">{p.summary}</p>
-        {p.stat && <p className="mb-4 font-mono text-sm text-accent">{p.stat}</p>}
         {p.role && <p className="mb-4 rounded-md border border-line px-3 py-2 text-sm text-muted">{p.role}</p>}
+        {p.stat && <p className="mb-4 font-mono text-sm text-accent">{p.stat}</p>}
         <Tags items={p.stack} />
         {p.repo && (
           <a href={p.repo} target="_blank" rel="noreferrer" className="mt-5 inline-block rounded-md border border-line-strong px-4 py-2 text-sm text-soft hover:bg-card">
@@ -48,6 +59,13 @@ export default async function ProjectPage({ params }: Props) {
           <Label>the problem</Label>
           <p className="text-sm leading-relaxed text-soft">{p.problem}</p>
           {p.problemGallery && <div className="mt-5"><Shots gallery={p.problemGallery} /></div>}
+          {p.bookingDecision && (
+            <div className="mt-6">
+              <h3 className="mb-2 text-base font-medium">Why check the seat again at checkout?</h3>
+              <p className="text-sm leading-relaxed text-soft">{p.bookingDecision}</p>
+              {p.flow?.note && <p className="mt-3 text-sm leading-relaxed text-soft">{p.flow.note}</p>}
+            </div>
+          )}
         </div>
         <div>
           <Label>what i built</Label>
@@ -62,6 +80,8 @@ export default async function ProjectPage({ params }: Props) {
         </div>
       </section>
 
+      {p.flow?.example && workflow}
+
       <section className="mb-14">
         <Label>{p.architecture.title.toLowerCase()}</Label>
         <div className="rounded-xl border border-line bg-card p-5">
@@ -70,15 +90,7 @@ export default async function ProjectPage({ params }: Props) {
         </div>
       </section>
 
-      {p.flow && (
-        <section className="mb-14">
-          <Label>{p.flow.title.toLowerCase()}</Label>
-          <div className="rounded-xl border border-line bg-card p-5">
-            <Steps steps={p.flow.steps} />
-            {p.flow.note && <p className="mt-4 text-xs leading-relaxed text-muted">{p.flow.note}</p>}
-          </div>
-        </section>
-      )}
+      {!p.flow?.example && workflow}
 
       {p.galleries && (
         <section className="space-y-12">
