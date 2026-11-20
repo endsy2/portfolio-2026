@@ -130,7 +130,7 @@ export default function Home() {
       <section className="reveal rounded-2xl border border-line-strong bg-card p-8 text-center">
         <Label id="contact">contact</Label>
         <h2 className="mb-3 text-3xl font-semibold">Let&apos;s build something</h2>
-        <p className="mb-6 text-sm text-muted">Open to full stack and backend roles. I reply in Khmer, English or 中文.</p>
+        <p className="mb-6 text-sm text-muted">Open to Java backend and full stack roles. I reply in Khmer, English or 中文.</p>
         <div className="flex flex-wrap justify-center gap-3">
           <a href={`mailto:${profile.email}`} className="rounded-md bg-gradient-to-r from-accent to-[#9b7bff] px-4 py-2 text-sm font-medium text-white">
             {profile.email}

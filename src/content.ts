@@ -2,53 +2,60 @@
 
 export const profile = {
   name: "Chin Kong Ming",
-  role: "Full Stack Developer",
+  role: "Java Backend Engineer",
   location: "Phnom Penh, Cambodia",
-  tagline: "builds banking and business systems end to end.",
-  stack: "Java · Spring Boot · Next.js · PostgreSQL · Oracle",
+  tagline: "builds secure REST APIs and banking systems.",
+  stack: "Java 17 · Spring Boot · PostgreSQL · Oracle · Redis · RabbitMQ",
   email: "kongming434@gmail.com",
   github: "https://github.com/endsy2",
   linkedin: "", // TODO: add LinkedIn URL
-  intro: "I’m a full-stack developer in Phnom Penh. I build approval workflows, payroll tools, and reporting systems for businesses and banks.",
-  about: "I speak Khmer, English, and Chinese. I taught Chinese for three years and now use it to work directly with our CTO and a core banking vendor.",
+  intro: "I’m a Java backend engineer in Phnom Penh. I build REST APIs with Spring Boot, secure them with JWT and role-based access, and write the SQL behind banking reports.",
+  about: "I speak Khmer (native), Chinese and English (upper intermediate). I taught Chinese for three years and now use it to work directly with our CTO and a core banking vendor. I work closely with frontend developers, DevOps and business teams, review code, and document APIs.",
 };
 
 export const skills: { group: string; items: string[] }[] = [
-  { group: "frontend", items: ["React", "Next.js", "TypeScript", "Tailwind CSS"] },
-  { group: "backend", items: ["Java", "Spring Boot", "JPA / Hibernate", "Node.js", "Express", "Laravel"] },
-  { group: "data", items: ["PostgreSQL", "Oracle PL/SQL", "MySQL", "Drizzle", "Prisma", "Redis", "RabbitMQ"] },
-  { group: "security", items: ["JWT", "RBAC", "Approval workflows", "Audit logging"] },
-  { group: "devops", items: ["Docker", "Kubernetes", "GitHub Actions", "Linux", "MinIO"] },
-  { group: "ml", items: ["Python", "PyTorch", "CLIP", "FastAPI", "Milvus"] },
+  { group: "java & spring", items: ["Java 17+", "Spring Boot", "Spring MVC", "Spring Data JPA", "Hibernate", "Spring Security"] },
+  { group: "apis & security", items: ["REST APIs", "Third-party integrations", "JWT", "RBAC", "Audit logging", "API docs"] },
+  { group: "data & messaging", items: ["PostgreSQL", "MySQL", "Oracle SQL", "PL/SQL", "Redis", "RabbitMQ", "Milvus"] },
+  { group: "practices", items: ["OOP", "SOLID", "Design patterns", "Code review", "Debugging"] },
+  { group: "build & deploy", items: ["Git", "Maven", "Gradle", "Docker", "GitHub Actions", "CI/CD", "Linux", "Postman"] },
+  { group: "other stacks", items: ["TypeScript", "Node.js", "Express", "Next.js", "React", "Laravel", "Python", "FastAPI"] },
+  { group: "learning", items: ["Kubernetes", "Helm", "Jenkins"] },
 ];
 
 export const experience = [
   {
     org: "VTECH Co., Ltd.", role: "Software Engineer", period: "Sep 2026 – now",
     points: [
-      "Build the company's internal platform for HR, payroll, finance, procurement and IT assets, end to end in Next.js and PostgreSQL.",
-      "Designed role-based permissions, approval workflows with separation of duties, and audit logs for sensitive data.",
-      "Work directly with the company's Chinese CTO, in Chinese, to clarify requirements.",
+      "Build the internal management system for HR, payroll, finance, procurement and IT assets (~70 staff) in TypeScript, Next.js and PostgreSQL.",
+      "Built role-based permissions and approval workflows with separation of duties, plus audit logs and access controls for sensitive employee and financial data.",
+      "Implemented payroll calculations, expense and funding records, asset tracking, and employee onboarding and offboarding.",
+      "Integrated the Telegram Bot API for notifications, and clarified requirements and design in Chinese with the CTO.",
     ],
   },
   {
     org: "Asia-Pacific Development Bank", role: "Backend Developer", period: "2025 – 2026",
     points: [
-      "Built Spring Boot REST APIs for a task tracking system: projects, boards, sprints and issues.",
-      "Added JWT auth with permissions at three levels, RabbitMQ notifications and Redis caching.",
+      "Designed and built Spring Boot REST APIs for project, board, sprint and issue management, consumed by the web frontend.",
+      "Modelled entities with Spring Data JPA and Hibernate, with dynamic filtering and search on JPA Specifications.",
+      "Added Spring Security and JWT auth with role-based permissions at project, board and issue level.",
+      "Built a RabbitMQ notification service for assignments, comments and due dates, plus configurable custom fields per issue type.",
+      "Improved performance with Redis caching and tuned SQL, and connected dashboard statistics APIs to Metabase.",
+      "Agreed API contracts with frontend developers, wrote API docs, reviewed teammates' code and worked with DevOps on deployment.",
       "Built a scheduled Java file sender that streams files to an SFTP server.",
     ],
   },
   {
     org: "Asia-Pacific Development Bank", role: "Reporting Developer", period: "2025 · 5 months",
     points: [
-      "Wrote and tuned SQL and PL/SQL for fixed deposit, loan and regulatory reports on Oracle.",
-      "Clarified core banking tables with the vendor in Chinese, and supported releases from UAT to production.",
+      "Wrote and tuned complex SQL and PL/SQL for fixed deposit, loan, banking operations and regulatory reports on Oracle.",
+      "Gathered requirements from Finance, Loan Operations and business teams, and clarified core banking tables with the vendor in Chinese.",
+      "Prepared deployment scripts, supported releases through UAT, pre-production and production, and resolved production issues.",
     ],
   },
   {
     org: "Mawarid Tech Academy", role: "Full Stack Developer Intern", period: "2025 · 2 months",
-    points: ["Built a Laravel and MySQL school management system: classes, teachers, timetables and score reports."],
+    points: ["Designed the MySQL database and built CRUD features, Admin and Teacher authentication, and score reporting for a Laravel school management system."],
   },
 ];
 
