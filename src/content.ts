@@ -2,14 +2,14 @@
 
 export const profile = {
   name: "Chin Kong Ming",
-  role: "Java Backend Engineer",
+  role: "Full Stack Developer",
   location: "Phnom Penh, Cambodia",
-  tagline: "builds secure REST APIs and banking systems.",
+  tagline: "builds banking and business systems end to end.",
   stack: "Java 17 · Spring Boot · PostgreSQL · Oracle · Redis · RabbitMQ",
   email: "kongming434@gmail.com",
   github: "https://github.com/endsy2",
   linkedin: "", // TODO: add LinkedIn URL
-  intro: "I’m a Java backend engineer in Phnom Penh. I build REST APIs with Spring Boot, secure them with JWT and role-based access, and write the SQL behind banking reports.",
+  intro: "I’m a full-stack developer in Phnom Penh. I build Spring Boot and Next.js apps, secure them with JWT and role-based access, and write the SQL behind banking reports.",
   about: "I speak Khmer (native), Chinese and English (upper intermediate). I taught Chinese for three years and now use it to work directly with our CTO and a core banking vendor. I work closely with frontend developers, DevOps and business teams, review code, and document APIs.",
 };
 
